@@ -20,28 +20,28 @@ public class UserController {
     private IUserService userService;
 
 
-    @PostMapping(USER_ENDPOINT)
+    @PostMapping(USER_ENDPOINT+"/register")
     public ResponseEntity<UserResponseDto> addExam(@RequestBody @Valid UserRequestDto userRequestDto){
         return ResponseEntity.ok().body(userService.createUser(userRequestDto));
     }
 
     @GetMapping(USER_ENDPOINT)
-    public ResponseEntity<List<UserResponseDto>> getExams(){
+    public ResponseEntity<List<UserResponseDto>> getUsers(){
         return ResponseEntity.ok().body(userService.findAllUsers());
     }
 
     @GetMapping(USER_ENDPOINT+"/{id}")
-    public ResponseEntity<UserResponseDto> getExamById(@PathVariable long id){
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable long id){
         return ResponseEntity.ok().body(userService.findUserById(id));
     }
 
     @PutMapping(USER_ENDPOINT+"/{id}")
-    public ResponseEntity<UserResponseDto> updateExamById(@PathVariable long id, @RequestBody @Valid UserRequestDto userRequestDto){
+    public ResponseEntity<UserResponseDto> updateUserById(@PathVariable long id, @RequestBody @Valid UserRequestDto userRequestDto){
         return ResponseEntity.ok().body(userService.updateUserById(id,userRequestDto));
 
     }
     @DeleteMapping(USER_ENDPOINT+"/{id}")
-    public ResponseEntity<String> deleteExamById(@PathVariable long id){
+    public ResponseEntity<String> deleteUserById(@PathVariable long id){
         userService.deleteUserById(id);
         return ResponseEntity.ok().body("Deleted Successfully");
 

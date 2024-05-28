@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.hibernate.validator.constraints.Length;
 
 @Data
@@ -25,6 +26,6 @@ public class UserRequestDto {
     @Length(min=8)
     private String password;
 
-    @NotEmpty
+    @NonNull
     private String role;
 }
