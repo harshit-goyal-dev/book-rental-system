@@ -62,8 +62,9 @@ public class BookService implements IBookService{
             throw new BookRentalLimitExceededException("User cannot rent more than two books at the same time");
         user.getBooks().add(book);
         book.setAvailable(false);
-        userService.updateUser(user);
-       // bookRepository.save(book);
+        book.setUser(user);
+        //userService.updateUser(user);
+        bookRepository.save(book);
     }
 
     @Override
@@ -79,7 +80,9 @@ public class BookService implements IBookService{
 
         user.getBooks().remove(book);
         book.setAvailable(true);
-        userService.updateUser(user);
+        book.setUser(null);
+        //userService.updateUser(user);
+        bookRepository.save(book);
     }
 
 }

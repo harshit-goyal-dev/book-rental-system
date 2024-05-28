@@ -1,74 +1,62 @@
 //package com.harshit.book_rental_system.configuration;
 //
+//import com.harshit.book_rental_system.service.UserService;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+//import org.springframework.security.authentication.AuthenticationManager;
+//import org.springframework.security.authentication.AuthenticationProvider;
+//import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+//import org.springframework.security.config.Customizer;
+//import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+//import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 //import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 //import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.web.SecurityFilterChain;
 //
-//@EnableWebSecurity
 //@Configuration
+//@EnableWebSecurity
+//@EnableMethodSecurity(prePostEnabled = true)
 //public class SecurityConfig {
 //
-//    private final RestAuthenticationEntryPoint authenticationEntryPoint;
-//
 //    @Autowired
-//    public BasicAuthSecurity(RestAuthenticationEntryPoint authenticationEntryPoint) {
-//        this.authenticationEntryPoint = authenticationEntryPoint;
-//    }
+//    UserService userService;
 //
 //    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.csrf().disable();
+//    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 //
-//        http.authorizeRequests()
-//                .antMatchers("/public/**")
+//        httpSecurity.csrf(csrf -> csrf.disable());
+//
+//        httpSecurity.authenticationProvider(authenticationProvider());
+//
+//        httpSecurity.authorizeHttpRequests(configurer -> configurer
+//                .requestMatchers("/login", "/register")
 //                .permitAll()
 //                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .httpBasic()
-//                .authenticationEntryPoint(authenticationEntryPoint);
-//        return http.build();
+//                .authenticated());
+//
+//        // Explicitly tell Spring Security that we are using Basic Auth
+//        httpSecurity.httpBasic(Customizer.withDefaults());
+//
+//        return httpSecurity.build();
 //    }
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .passwordEncoder(PasswordEncoderConfig.passwordEncoder())
-//                .withUser("user1")
-//                .password(PasswordEncoderConfig.passwordEncoder().encode("password"))
-//                .roles("ADMIN");
-//    }
+//
 //    @Bean
-//    public UserDetailsService userDetailsService(){
-//
+//    AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+//        return configuration.getAuthenticationManager();
 //    }
 //
-////    @Bean
-////    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-////        http.authorizeRequests()
-////                .antMatchers("/public/**").permitAll() // Allow access to public resources
-////                .antMatchers("/admin/**").hasRole("ADMIN") // Allow access to admin resources for users with ADMIN role
-////                .anyRequest().authenticated() // Require authentication for all other requests
-////                .and()
-////                .formLogin(); // Use form-based authentication
-////
-////        return http.build();
-////    }
-//
-//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-//        return httpSecurity.csrf().disable()
-//                .authorizeHttpRequests()
-//                .requestMatchers("/").permitAll()
-//                .and().authorizeHttpRequests()
-//                .requestMatchers("/")
-//                .authenticated()
-//                .and().httpBasic()
-//                .and().build();
-//
+//    @Bean
+//    AuthenticationProvider authenticationProvider() {
+//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+//        authenticationProvider.setUserDetailsService(userService);
+//        authenticationProvider.setPasswordEncoder(passwordEncoder());
+//        return authenticationProvider;
 //    }
-//}
+//
+//    @Bean
+//    PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }

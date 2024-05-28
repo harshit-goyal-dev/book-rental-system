@@ -39,12 +39,6 @@ public class SecurityConfiguration {
                                                     "/book-rental/api/v1/login"
                         )
                         .permitAll()
-//                        .requestMatchers(HttpMethod.GET,
-//                                "/book-rental/api/v1/books").hasRole(Role.USER.toString())
-//                        .requestMatchers(HttpMethod.POST,
-//                                "/book-rental/api/v1/users/**",
-//                                "/book-rental/api/v1/books/**"
-//                                ).hasRole(Role.ADMIN.toString())
                         .anyRequest().authenticated())
 
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -1,5 +1,6 @@
 package com.harshit.book_rental_system.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.harshit.book_rental_system.dto.UserRequestDto;
 import com.harshit.book_rental_system.enums.Role;
 import com.harshit.book_rental_system.exception.InvalidRoleException;
@@ -47,7 +48,8 @@ public class User implements UserDetails {
     private Role role;
 
     @Size(max = 2)
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
     private List<Book> books;
 
     public User(@NotNull UserRequestDto dto){
