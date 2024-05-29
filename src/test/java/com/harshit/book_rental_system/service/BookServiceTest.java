@@ -114,7 +114,7 @@ public class BookServiceTest {
         book4.setUser(user2);
         book4.setAvailable(false);
         bookService.returnBook(4L);
-        assertTrue(book3.isAvailable());
+        assertTrue(book4.isAvailable());
         Assertions.assertEquals(0,user2.getBooks().size());
     }
 }
