@@ -13,12 +13,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException exception){
-        return new ResponseEntity<String>("Student Not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<String>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BookNotFoundException.class)
     public ResponseEntity<String> handleBookNotFoundException(BookNotFoundException exception){
-        return new ResponseEntity<String>("Subject Not found", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<String>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BookNotAvailableException.class)
